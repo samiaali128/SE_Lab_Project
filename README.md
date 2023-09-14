@@ -3,10 +3,10 @@
 
 ## Table of Contents
 1. [Introduction](#introduction)
-2. [Demo](#demo)
-3. [Installation](#installation)
-4. [Usage](#usage)
-5. [Features](#features)
+
+2. [Installation](#installation)
+3. [Usage](#usage)
+4. [Features](#features)
 
 
 ## 1. Introduction
@@ -14,7 +14,7 @@ Farosh-Gah is a powerful and feature-rich open-source eCommerce platform built u
 
 
 
-## 3. Installation
+## 2. Installation
 To get Farosh-Gah  up and running on your local machine, follow these steps:
 
 1. Clone the repository.
@@ -28,7 +28,7 @@ To get Farosh-Gah  up and running on your local machine, follow these steps:
 7. Create a superuser: `python manage.py createsuperuser`
 8. Start the development server: `python manage.py runserver`
 
-## 4. Usage
+## 3. Usage
 With Farosh-Gah, you can:
 
 - **Register and Log In**: Users can create accounts and securely log in.
@@ -39,7 +39,7 @@ With Farosh-Gah, you can:
 - **Product Search**: A powerful search feature for finding products.
 - **Admin Panel**: An intuitive admin panel for managing your store.
 
-## 5. Features
+## 4. Features
 Farosh-Gah is packed with features to help you succeed in the world of eCommerce:
 
 ### User Management
@@ -50,7 +50,6 @@ Farosh-Gah is packed with features to help you succeed in the world of eCommerce
 - Create, edit, and delete products.
 - Categorize products for easy navigation.
 - Upload product images.
-
 ### Shopping Cart
 - Add products to the cart.
 - Adjust quantities and remove items.
