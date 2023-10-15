@@ -379,6 +379,8 @@ def cart(request):
     
     # add cart items in list
 
+
+
     # save cart data in dict and append in list
 
     for cart_item in cart_items:
@@ -408,6 +410,8 @@ def cart(request):
     context = {
         'cart_data': cart_data,
     }
+
+    #return template
     return render(request, "shop/cart.html" , context)
 
 
