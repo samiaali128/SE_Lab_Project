@@ -38,7 +38,18 @@ class Review(models.Model):
         return f"Review for {self.product.product_name} - Rating: {self.rating}"
 
     
+class Cart(models.Model):
+    cart_id = models.AutoField
+    user_id = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+    created_date = models.DateField(auto_now_add=True)
+    updated_date = models.DateField(auto_now=True)
+    status = models.CharField(max_length=50, default="Active")
 
+    def __str__(self):
+        return self.product_id.product_name
+    
 class ProdcutImage(models.Model):
     product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
     image = models.ImageField(upload_to="shop/images", default="" , null=True, blank=True)

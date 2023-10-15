@@ -1,12 +1,13 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import ProductCategory, Product, ProdcutImage , Review
+from .models import ProductCategory, Product, ProdcutImage , Review , Cart
 
 admin.site.register(ProductCategory)
 admin.site.register(Product)
 admin.site.register(ProdcutImage)
 admin.site.register(Review)
+admin.site.register(Cart)
 
 
 class ProductAdmin(admin.ModelAdmin):
@@ -27,4 +28,10 @@ class ReviewAdmin(admin.ModelAdmin):
     list_display = ('product_id', 'rating', 'comment')
     list_filter = ('product_id', 'rating')
     search_fields = ('product_id',)
+
+class CartAdmin(admin.ModelAdmin):
+    list_display = ( 'user_id' , 'product_id', 'quantity', 'created_date', 'updated_date', 'status')
+    list_filter = ('user_id', 'product_id', 'created_date', 'updated_date', 'status')
+    search_fields = ('product_id',)
+
 
