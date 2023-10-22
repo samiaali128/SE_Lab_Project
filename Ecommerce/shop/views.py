@@ -431,6 +431,7 @@ def remove_item_view(request):
                 cart_action = 'DELETE'
 
                 # audit log
+                # audit log
                 create_audit_log(cart_item.id, cart_action, request.user, cart_item.product_id.id , "Deactive")
 
                 cart_item.delete()
