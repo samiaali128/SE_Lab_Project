@@ -434,7 +434,9 @@ def remove_item_view(request):
                 # audit log
                 create_audit_log(cart_item.id, cart_action, request.user, cart_item.product_id.id , "Deactive")
 
+                # delete cart item
                 cart_item.delete()
+
             else:
                 # cart item not found
                 return JsonResponse({'message': 'Cart item not found'})
