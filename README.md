@@ -1,4 +1,4 @@
-"# SE_Lab_Project" 
+
 # Farosh-Gah - Your Ultimate eCommerce Solution
 
 ## Table of Contents
