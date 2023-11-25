@@ -1,63 +1,128 @@
+from django.contrib import admin
 from django.db import models
-
-# Create your models here.
-
-    
+from django.contrib.auth.models import User
 
 class ProductCategory(models.Model):
-    category_id = models.AutoField
+    id = models.AutoField(primary_key=True)
     category_name = models.CharField(max_length=100)
-    
-    
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+    status = models.CharField(max_length=50, default="Active")
+
     def __str__(self):
         return self.category_name
-    
+
+
+
 class Product(models.Model):
-    product_id = models.AutoField
+    id = models.AutoField(primary_key=True)
     product_name = models.CharField(max_length=100)
-    category_id = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
+    category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
     price = models.IntegerField(default=0)
     pub_date = models.DateField()
     quantity = models.IntegerField(default=0)
     description = models.CharField(max_length=3000)
-    
-    
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+    status = models.CharField(max_length=50, default="Active")
+
     def __str__(self):
         return self.product_name
     
-    def getReview(self):
-        return self.review_set.all()
-    
-    
-class Review(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    rating = models.PositiveIntegerField(choices=[(i, str(i)) for i in range(1, 6)])
-    comment = models.TextField()
+
+class Cart(models.Model):
+    id = models.AutoField(primary_key=True)
+    product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+    status = models.CharField(max_length=50, default="Active")
 
     def __str__(self):
-        return f"Review for {self.product.product_name} - Rating: {self.rating}"
+        return self.product_id.product_name 
+    
+class Deliveries(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    products = models.ManyToManyField(Product, through='ProductInDelivery')
+   
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+    status = models.CharField(max_length=50, default="Active")
+    
+    def __str__(self):
+        product_names = ", ".join([str(product.product_name) for product in self.products.all()])
+        return f'Delivery {self.id} - Products: {product_names}'
+
 
     
-class Cart(models.Model):
-    cart_id = models.AutoField
-    user_id = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+class ProductInDelivery(models.Model):
+    id = models.AutoField(primary_key=True)
+    delivery_id = models.ForeignKey(Deliveries, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=0)
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+    status = models.CharField(max_length=50, default="Active")
+    
+    def __str__(self):
+         return self.product.product_name
+
+class ShippingAddress(models.Model):
+    id = models.AutoField(primary_key=True)
+    dilivery_id = models.ForeignKey(Deliveries, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    street_address = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+    postal_code = models.CharField(max_length=100)
+    phone = models.CharField(max_length=100)
+    email = models.CharField(max_length=100)
+    notes = models.CharField(max_length=100)
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+    status = models.CharField(max_length=50, default="Active")
+
+    def __str__(self):
+        return self.first_name + " " + self.last_name + " " + self.email
+
+
+
+class ProductImage(models.Model):
+    id = models.AutoField(primary_key=True)
     product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.IntegerField(default=1)
-    created_date = models.DateField(auto_now_add=True)
-    updated_date = models.DateField(auto_now=True)
+    image = models.ImageField(upload_to="shop/images", default="", null=True, blank=True)
+    side_image = models.ImageField(upload_to="shop/images", default="", null=True, blank=True)
+    back_image = models.ImageField(upload_to="shop/images", default="", null=True, blank=True)
+    front_image = models.ImageField(upload_to="shop/images", default="", null=True, blank=True)
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
     status = models.CharField(max_length=50, default="Active")
 
     def __str__(self):
         return self.product_id.product_name
     
-class ProdcutImage(models.Model):
-    product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to="shop/images", default="" , null=True, blank=True)
-    side_image = models.ImageField(upload_to="shop/images", default="" , null=True, blank=True)
-    back_image = models.ImageField(upload_to="shop/images", default="" , null=True, blank=True)
-    front_image = models.ImageField(upload_to="shop/images", default="" , null=True, blank=True)
 
-    
+class WeeklyOffers(models.Model):
+    id = models.AutoField(primary_key=True)
+    product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
+    offer_price = models.IntegerField(default=0)
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+    status = models.CharField(max_length=50, default="Active")
+
     def __str__(self):
-       
-        return self.image.name 
+        return self.product_id.product_name
+    
+
+class Wishlist(models.Model):
+    id = models.AutoField(primary_key=True)
+    product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+    status = models.CharField(max_length=50, default="Active")
+
+    def __str__(self):
+        return self.product_id.product_name
