@@ -21,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-lwr_ojl&v=8eoy4yv1n7pkgr(ama_=+k23x&b%uj5ma1e3sf7-'
+SECRET_KEY = 'django-insecure-0u4ak^$qqp_9r*#7lf6*5-7n*k))-h8d&7l@7wohaxlr#-2-0f'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -78,18 +78,17 @@ WSGI_APPLICATION = 'Ecommerce.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ecommerce',  # Replace with your MySQL database name
+        'NAME': 'seproject',  # Replace with your MySQL database name
         'USER': 'root',  # Replace with your MySQL username
         'PASSWORD': '',  # Replace with your MySQL password
         'HOST': 'localhost',  # Use 'localhost' for local development
         
     }
 }
-LOGOUT_REDIRECT_URL = '/shop/'
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
+LOGOUT_REDIRECT_URL = '/shop/'
 
 AUTH_PASSWORD_VALIDATORS = [
     {

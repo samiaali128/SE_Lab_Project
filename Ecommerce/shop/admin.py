@@ -1,37 +1,79 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import ProductCategory, Product, ProdcutImage , Review , Cart
+from .models import ProductCategory, Product, Cart , ProductImage , ShippingAddress , Deliveries , ProductInDelivery , WeeklyOffers , Wishlist
 
 admin.site.register(ProductCategory)
 admin.site.register(Product)
-admin.site.register(ProdcutImage)
-admin.site.register(Review)
 admin.site.register(Cart)
+admin.site.register(ProductImage)
+admin.site.register(ShippingAddress)
+admin.site.register(ProductInDelivery)
+admin.site.register(Deliveries)
+admin.site.register(WeeklyOffers)
+admin.site.register(Wishlist)
+
+
+
+
+class CartAdmin(admin.ModelAdmin):
+    list_display = ('id', 'product_id', 'user', 'quantity', 'created_at', 'updated_at', 'status')
+    list_filter = ('id', 'product_id', 'user', 'quantity', 'created_at', 'updated_at', 'status')
+    search_fields = ('id', 'product_id', 'user', 'quantity', 'created_at', 'updated_at', 'status')
+    ordering = ('id', 'product_id', 'user', 'quantity', 'created_at', 'updated_at', 'status')
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('product_name', 'category_id', 'price', 'pub_date', 'description')
-    list_filter = ('category_id', 'pub_date')
-    search_fields = ('product_name'),
-    date_hierarchy = 'pub_date'
+    list_display = ('id', 'product_name', 'category', 'price', 'pub_date', 'quantity', 'description', 'created_at', 'updated_at', 'status')
+    list_filter = ('id', 'product_name', 'category', 'price', 'pub_date', 'quantity', 'description', 'created_at', 'updated_at', 'status')
+    search_fields = ('id', 'product_name', 'category', 'price', 'pub_date', 'quantity', 'description', 'created_at', 'updated_at', 'status')
+    ordering = ('id', 'product_name', 'category', 'price', 'pub_date', 'quantity', 'description', 'created_at', 'updated_at', 'status')
 
-class ProductImagesAdmin(admin.ModelAdmin):
-    list_display = ('product_id', 'image')
-    list_filter = ('product_id',)
 
 class ProductCategoryAdmin(admin.ModelAdmin):
-    list_display = ('category_name',)
-    search_fields = ('category_name'),
-
-class ReviewAdmin(admin.ModelAdmin):
-    list_display = ('product_id', 'rating', 'comment')
-    list_filter = ('product_id', 'rating')
-    search_fields = ('product_id',)
-
-class CartAdmin(admin.ModelAdmin):
-    list_display = ( 'user_id' , 'product_id', 'quantity', 'created_date', 'updated_date', 'status')
-    list_filter = ('user_id', 'product_id', 'created_date', 'updated_date', 'status')
-    search_fields = ('product_id',)
+    list_display = ('id', 'category_name', 'created_at', 'updated_at', 'status')
+    list_filter = ('id', 'category_name', 'created_at', 'updated_at', 'status')
+    search_fields = ('id', 'category_name', 'created_at', 'updated_at', 'status')
+    ordering = ('id', 'category_name', 'created_at', 'updated_at', 'status')
 
 
+class ProductImageAdmin(admin.ModelAdmin):
+    list_display = ('id', 'product_id', 'image', 'side_image', 'back_image', 'front_image', 'created_at', 'updated_at', 'status')
+    list_filter = ('id', 'product_id', 'image', 'side_image', 'back_image', 'front_image', 'created_at', 'updated_at', 'status')
+    search_fields = ('id', 'product_id', 'image', 'side_image', 'back_image', 'front_image', 'created_at', 'updated_at', 'status')
+    ordering = ('id', 'product_id', 'image', 'side_image', 'back_image', 'front_image', 'created_at', 'updated_at', 'status')
+
+
+class ShippingAddressAdmin(admin.ModelAdmin):
+    list_display = ('id', 'dilivery_id', 'first_name', 'last_name', 'email', 'address', 'country', 'state', 'zip_code', 'created_at', 'updated_at', 'status')
+    list_filter = ('id', 'dilivery_id', 'first_name', 'last_name', 'email', 'address', 'country', 'state', 'zip_code', 'created_at', 'updated_at', 'status')
+    search_fields = ('id', 'dilivery_id', 'first_name', 'last_name', 'email', 'address', 'country', 'state', 'zip_code', 'created_at', 'updated_at', 'status')
+    ordering = ('id', 'dilivery_id', 'first_name', 'last_name', 'email', 'address', 'country', 'state', 'zip_code', 'created_at', 'updated_at', 'status')
+
+
+class DeliveriesAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'product_id', 'quantity', 'created_at', 'updated_at', 'status')
+    list_filter = ('id', 'user', 'product_id', 'quantity', 'created_at', 'updated_at', 'status')
+    search_fields = ('id', 'user', 'product_id', 'quantity', 'created_at', 'updated_at', 'status')
+    ordering = ('id', 'user', 'product_id', 'quantity', 'created_at', 'updated_at', 'status')
+
+
+class ProductInDeliveryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'delivery_id', 'product', 'quantity', 'created_at', 'updated_at', 'status')
+    list_filter = ('id', 'delivery_id', 'product', 'quantity', 'created_at', 'updated_at', 'status')
+    search_fields = ('id', 'delivery_id', 'product', 'quantity', 'created_at', 'updated_at', 'status')
+    ordering = ('id', 'delivery_id', 'product', 'quantity', 'created_at', 'updated_at', 'status')
+
+
+class WeeklyOffersAdmin(admin.ModelAdmin):
+    list_display = ('id', 'product_id', 'offer_price', 'created_at', 'updated_at', 'status')
+    list_filter = ('id', 'product_id', 'offer_price', 'created_at', 'updated_at', 'status')
+    search_fields = ('id', 'product_id', 'offer_price', 'created_at', 'updated_at', 'status')
+    ordering = ('id', 'product_id', 'offer_price', 'created_at', 'updated_at', 'status')
+
+
+class WishlistAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'product_id', 'created_at', 'updated_at', 'status')
+    list_filter = ('id', 'user', 'product_id', 'created_at', 'updated_at', 'status')
+    search_fields = ('id', 'user', 'product_id', 'created_at', 'updated_at', 'status')
+    ordering = ('id', 'user', 'product_id', 'created_at', 'updated_at', 'status')
