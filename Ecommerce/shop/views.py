@@ -7,6 +7,8 @@ from django.db.models import Q
 from .models import Product , ProductCategory , ProductImage  , Cart , Deliveries , ShippingAddress , ProductInDelivery , WeeklyOffers , Wishlist
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 
 
 @csrf_exempt  
@@ -26,7 +28,7 @@ def add_to_cart(request):
             return JsonResponse({'message': 'Product is out of stock'})
         
         else :
-            # if status is deactive then update status to active
+            
         
             if Cart.objects.filter(product_id=product_id, user_id=user_id, status='Deactive').exists():
                 cart = Cart.objects.get(product_id=product_id, user_id=user_id, status='Deactive')
@@ -69,6 +71,38 @@ def add_to_wishlist(request):
 
     return JsonResponse({'message': 'Invalid request method'})
 
+
+@csrf_exempt
+def available_products(requests):
+
+    if requests.method == "GET":
+        products = Product.objects.all()
+        product_data = []
+        for product in products:
+            quantity = product.quantity
+            if quantity > 0:
+                id = product.id
+                image = ProductImage.objects.get(product_id=id)
+                product_dict = {
+                    'product': product,
+                    'image': image.image,
+                    'side_image': image.side_image,
+                    'back_image': image.back_image,
+                    'front_image': image.front_image,
+                }
+                product_data.append(product_dict)
+        context = {
+            'product_data': product_data,
+        }
+        return render(requests, "shop/shop.html", context)
+    else :
+        
+        return render(requests, "shop/404.html")
+
+           
+
+       
+
 @csrf_exempt
 def remove_from_wishlist(request):
     if request.method == "POST":
@@ -86,7 +120,36 @@ def remove_from_wishlist(request):
     else:
         return JsonResponse({'message': 'Invalid request'})
 
+@csrf_exempt
+def on_sale_products(request):
+    if request.method == "GET":
+        products = Product.objects.all()
+        product_data = []
+        # quanttiy > 0 then check weekly offer
+        for product in products:
+            quantity = product.quantity
+            if quantity > 0:
+                weekly_offer = WeeklyOffers.objects.filter(product_id=product.id , status = "Active").first()
+                if weekly_offer:
+                    id = product.id
+                    image = ProductImage.objects.get(product_id=id)
+                    product_dict = {
+                        'product': product,
+                         'price': weekly_offer.offer_price,
+                        'image': image.image,
+                        'side_image': image.side_image,
+                        'back_image': image.back_image,
+                        'front_image': image.front_image,
+                    }
+                    product_data.append(product_dict)
+        context = {
+            'product_data': product_data,
+        }
+        return render(request, "shop/shop.html", context)
+    else:
+        return render(request, "shop/404.html")
 
+    
 
 def index(request):
     return render(request , "shop/clothing.html")
@@ -133,6 +196,7 @@ def wishlist(request):
         return render(request, "shop/wishlist.html" , context)
     
     return render(request , "shop/wishlist.html")
+
 def clothing(request):
    
     product_data = []
@@ -341,7 +405,7 @@ def your_checkout_view(request):
                  product_in_delivery = ProductInDelivery.objects.create(
                    delivery_id=delivery_instance,
                      product=cart_item.product_id,
-                     quantity=cart_item.quantity
+                     quantity=cart_item.quantityroduc
                     )
                  product_in_delivery.save()
 
@@ -389,34 +453,52 @@ def update_cart(request):
 def shop(request):
     products = Product.objects.all()
     product_data = []
+    items_per_page = 3
+
+    # Sorting
+    sort_option = request.GET.get('sort', 'default')
     try:
-        sort_option = request.GET.get('sort', 'default')
-        if sort_option == 'Low to Hight':
-            products = Product.objects.order_by('price')
+        if sort_option == 'Low to High':
+            products = products.order_by('price')
         elif sort_option == 'High to Low':
-            products  = Product.objects.order_by('-price')
-            
+            products = products.order_by('-price')
     except:
         pass
-    for product in products:
-        id = product.id
-        image = ProductImage.objects.get(product_id=id)
+
+    # Pagination
     
-        product_dict = {
-            'product': product,
-            'image': image.image,
-            'side_image': image.side_image,
-            'back_image': image.back_image,
-            'front_image': image.front_image,  
+    paginator = Paginator(products, items_per_page)
+    page = request.GET.get('page', 1)  # Default to page 1 if not specified
+    try:
+        product_dat = paginator.page(page)
+        for product in product_dat:
+            id = product.id
+            image = ProductImage.objects.get(product_id=id)
+            product_dict = {
+                'product': product,
+                'image': image.image,
+                'side_image': image.side_image,
+                'back_image': image.back_image,
+                'front_image': image.front_image,
+            }
+            product_data.append(product_dict)
+        current_page = int(page)
+        max_index = len(paginator.page_range)
+        start_index = current_page - 2 if current_page >= 3 else 0
+        end_index = current_page + 2 if current_page <= max_index - 3 else max_index
+        page_range = paginator.page_range[start_index:end_index]
 
-        }
-        
-        product_data.append(product_dict)
-    context = {
+        context = {
         'product_data': product_data,
-    }
+        'page_obj': paginator.page(current_page),
+        'page_range': page_range,
+     }  
+    except PageNotAnInteger:
+        return HttpResponse("Page not found")
 
-    return render(request , "shop/shop.html" , context)
+    
+
+    return render(request, "shop/shop.html", context)
 
 def register(request):
     return render(request , "shop/register.html")

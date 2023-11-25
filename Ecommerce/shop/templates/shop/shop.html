@@ -22,6 +22,8 @@
       <link rel="stylesheet" href="{% static 'assets/css/flaticon_shofy.css'%}">
       <link rel="stylesheet" href="{% static 'assets/css/spacing.css'%}">
       <link rel="stylesheet" href="{% static 'assets/css/main.css'%}">
+      <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
    </head>
    <body>
       <!--[if lte IE 9]>
@@ -280,22 +282,14 @@
 
       <!-- header area start -->
       <header>
-         <div class="tp-header-area tp-header-style-primary tp-header-height">
+         <div class="tp-header-area tp-header-style-darkRed tp-header-height">
             <!-- header top start  -->
             <div class="tp-header-top-2 p-relative z-index-11 tp-header-top-border d-none d-md-block">
                <div class="container">
                   <div class="row align-items-center">
                      <div class="col-md-6">
                         <div class="tp-header-info d-flex align-items-center">
-                           <div class="tp-header-info-item">
-                              <a href="#">
-                                 <span>
-                                    <svg width="8" height="15" viewBox="0 0 8 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                       <path d="M8 0H5.81818C4.85376 0 3.92883 0.383116 3.24688 1.06507C2.56493 1.74702 2.18182 2.67194 2.18182 3.63636V5.81818H0V8.72727H2.18182V14.5455H5.09091V8.72727H7.27273L8 5.81818H5.09091V3.63636C5.09091 3.44348 5.16753 3.25849 5.30392 3.1221C5.44031 2.98571 5.6253 2.90909 5.81818 2.90909H8V0Z" fill="currentColor"/>
-                                    </svg>                                    
-                                 </span> 7500k Followers
-                              </a>
-                           </div>
+                          
                            <div class="tp-header-info-item">
                               <a href="tel:402-763-282-46">
                                  <span>
@@ -304,7 +298,7 @@
                                        <path d="M9.84082 1.18318C12.5534 1.48434 14.6952 3.62393 15 6.3358" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                        <path d="M9.84082 3.77927C11.1378 4.03207 12.1511 5.04544 12.4039 6.34239" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>                                   
-                                 </span> +(402) 763 282 46
+                                 </span> +923004949292
                               </a>
                            </div>
                         </div>
@@ -312,37 +306,8 @@
                      <div class="col-md-6">
                         <div class="tp-header-top-right tp-header-top-black d-flex align-items-center justify-content-end">
                            <div class="tp-header-top-menu d-flex align-items-center justify-content-end">
-                              <div class="tp-header-top-menu-item tp-header-lang">
-                                 <span class="tp-header-lang-toggle" id="tp-header-lang-toggle">English</span>
-                                 <ul>
-                                    <li>
-                                       <a href="#">Spanish</a>
-                                    </li>
-                                    <li>
-                                       <a href="#">Russian</a>
-                                    </li>
-                                    <li>
-                                       <a href="#">Portuguese</a>
-                                    </li>
-                                 </ul>
-                              </div>
-                              <div class="tp-header-top-menu-item tp-header-currency">
-                                 <span class="tp-header-currency-toggle" id="tp-header-currency-toggle">USD</span>
-                                 <ul>
-                                    <li>
-                                       <a href="#">EUR</a>
-                                    </li>
-                                    <li>
-                                       <a href="#">CHF</a>
-                                    </li>
-                                    <li>
-                                       <a href="#">GBP</a>
-                                    </li>
-                                    <li>
-                                       <a href="#">KWD</a>
-                                    </li>
-                                 </ul>
-                              </div>
+                             
+                              
                               <div class="tp-header-top-menu-item tp-header-setting">
                                  <span class="tp-header-setting-toggle" id="tp-header-setting-toggle">Setting</span>
                                  <ul>
@@ -350,13 +315,10 @@
                                        <a href="profile.html">My Profile</a>
                                     </li>
                                     <li>
-                                       <a href="{% url 'wishlist' %}">Wishlist</a>
-
-
-
+                                       <a href="wishlist">Wishlist</a>
                                     </li>
                                     <li>
-                                       <a href="cart.html">Cart</a>
+                                       <a href="{% url 'cart' %}">Cart</a>
                                     </li>
                                     <li>
                                        <a href="login.html">Logout</a>
@@ -393,21 +355,10 @@
                                        <a href="index.html">Home</a>
                                        <div class="home-menu tp-submenu tp-mega-menu">
                                           <div class="row row-cols-1 row-cols-lg-4 row-cols-xl-5">
+                                            
                                              <div class="col">
                                                 <div class="home-menu-item ">
-                                                   <a href="index.html">
-                                                      <div class="home-menu-thumb p-relative fix">
-                                                         <img src="{% static 'assets/img/menu/menu-home-1.jpg'%}" alt="">
-                                                      </div>
-                                                      <div class="home-menu-content">
-                                                         <h5 class="home-menu-title">Electronics </h5>
-                                                      </div>
-                                                   </a>
-                                                </div>
-                                             </div>
-                                             <div class="col">
-                                                <div class="home-menu-item ">
-                                                   <a href="index-2.html">
+                                                   <a href="{%url 'clothing' %}">
                                                       <div class="home-menu-thumb p-relative fix">
                                                          <img src="{% static 'assets/img/menu/menu-home-2.jpg'%}" alt="">
                                                       </div>
@@ -417,42 +368,9 @@
                                                    </a>
                                                 </div>
                                              </div>
-                                             <div class="col">
-                                                <div class="home-menu-item ">
-                                                   <a href="index-3.html">
-                                                      <div class="home-menu-thumb p-relative fix">
-                                                         <img src="{% static 'assets/img/menu/menu-home-3.jpg'%}" alt="">
-                                                      </div>
-                                                      <div class="home-menu-content">
-                                                         <h5 class="home-menu-title">Beauty</h5>
-                                                      </div>
-                                                   </a>
-                                                </div>
-                                             </div>
-                                             <div class="col">
-                                                <div class="home-menu-item ">
-                                                   <a href="index-4.html">
-                                                      <div class="home-menu-thumb p-relative fix">
-                                                         <img src="{% static 'assets/img/menu/menu-home-4.jpg'%}" alt="">
-                                                      </div>
-                                                      <div class="home-menu-content">
-                                                         <h5 class="home-menu-title">Jewelry </h5>
-                                                      </div>
-                                                   </a>
-                                                </div>
-                                             </div>
-                                             <div class="col">
-                                                <div class="home-menu-item ">
-                                                   <a href="index-5.html">
-                                                      <div class="home-menu-thumb p-relative fix">
-                                                         <img src="{% static 'assets/img/menu/menu-home-5.jpg'%}" alt="">
-                                                      </div>
-                                                      <div class="home-menu-content">
-                                                         <h5 class="home-menu-title">Grocery</h5>
-                                                      </div>
-                                                   </a>
-                                                </div>
-                                             </div>
+                                           
+                                            
+                                            
                                           </div>
                                        </div>
                                     </li>
@@ -474,7 +392,7 @@
                                           <li  class="has-dropdown">
                                              <a href="shop" class="mega-menu-title">eCommerce</a>
                                              <ul class="tp-submenu">
-                                                <li><a href="cart.html">Shopping Cart</a></li>
+                                                <li><a href="{% url 'cart' %}">Shopping Cart</a></li>
                                                 <li><a href="order.html">Track Your Order</a></li>
                                                 <li><a href="compare.html">Compare</a></li>
                                                 <li><a href="wishlist">Wishlist</a></li>
@@ -585,26 +503,57 @@
             <div class="tp-shop-sidebar">
                <!-- filter -->
            
-               <!-- status -->
-               <div class="tp-shop-widget mb-50">
-                  <h3 class="tp-shop-widget-title">Product Status</h3>
+             <!-- status -->
+<!--<div class="tp-shop-widget mb-50">
+   <h3 class="tp-shop-widget-title">Product Status</h3>
 
-                  <div class="tp-shop-widget-content">
-                     <div class="tp-shop-widget-checkbox">
-                         <ul class="filter-items filter-checkbox">
-                             <li class="filter-item checkbox">
-                                 <input id="on_sale2" type="checkbox">
-                                 <label for="on_sale2">On sale</label>
-                             </li>
-                             <li class="filter-item checkbox">
-                                 <input id="in_stock2" type="checkbox">
-                                 <label for="in_stock2">In Stock</label>
-                             </li>
-                         </ul><!-- .filter-items -->
-                     </div>
-                 </div>
-                 
-               </div>
+   <div class="tp-shop-widget-content">
+      <div class="tp-shop-widget-checkbox">
+         <ul class="filter-items filter-checkbox">
+            <li class="filter-item checkbox">
+               <input id="on_sale2" type="checkbox">
+               <label for="on_sale2">On sale</label>
+            </li>
+            <li class="filter-item checkbox">
+               <input id="in_stock2" type="checkbox">
+               <label for="in_stock2">In Stock</label>
+            </li>
+         </ul>
+      </div>
+      <br>
+   </div>
+
+   <form id="filterForm" method="get">
+      {% csrf_token %}
+      <button type="submit" class="tp-btn tp-btn-2">Filter</button>
+   </form>
+
+</div> -->
+
+   <!-- status -->
+   <div class="tp-shop-widget mb-50">
+      <h3 class="tp-shop-widget-title">Product Status</h3>
+
+      <div class="tp-shop-widget-content">
+         <div class="tp-shop-widget-checkbox">
+            <ul class="filter-items filter-checkbox">
+               <li class="filter-item checkbox">
+                  <input id="on_sale2" type="checkbox">
+                  <label for="on_sale2">On sale</label>
+               </li>
+               <li class="filter-item checkbox">
+                  <input id="in_stock2" type="checkbox">
+                  <label for="in_stock2">In Stock</label>
+               </li>
+            </ul><!-- .filter-items -->
+         </div>
+      </div>
+      <form action="{% url 'available_products' %}" method="get">
+         {% csrf_token %}
+         <button type="submit" class="tp-btn tp-btn-2">Filter</button>
+      </form>
+   </div>
+              
                <!-- categories -->
                <div class="tp-shop-widget mb-50">
                   <h3 class="tp-shop-widget-title">Categories</h3>
@@ -666,7 +615,7 @@
                         <!-- filter -->
                     
                         <!-- status -->
-                        <div class="tp-shop-widget mb-50">
+                    <!---    <div class="tp-shop-widget mb-50">
                            <h3 class="tp-shop-widget-title">Product Status</h3>
 
                            <div class="tp-shop-widget-content">
@@ -680,10 +629,69 @@
                                           <input id="in_stock2" type="checkbox">
                                           <label for="in_stock2">In Stock</label>
                                       </li>
-                                  </ul><!-- .filter-items -->
+                                  </ul>
                               </div>
+                              <br>
                           </div>
-                        </div>
+                          <form action="{% url 'available_products' %}" method="get">
+                              {% csrf_token %}
+                              <button type="submit" class="tp-btn tp-btn-2">Filter</button>
+                           </form>
+                           ----------------------------------------------------
+
+                        </div> -->
+                        
+                        <div class="tp-shop-widget mb-50">
+                           <h3 class="tp-shop-widget-title">Product Status</h3>
+                       
+                           <div class="tp-shop-widget-content">
+                               <div class="tp-shop-widget-checkbox">
+                                   <ul class="filter-items filter-checkbox">
+                                       <li class="filter-item checkbox">
+                                           <input id="on_sale" type="checkbox">
+                                           <label for="on_sale">On sale</label>
+                                       </li>
+                                       <li class="filter-item checkbox">
+                                           <input id="in_stock" type="checkbox">
+                                           <label for="in_stock">In Stock</label>
+                                       </li>
+                                   </ul><!-- .filter-items -->
+                               </div>
+                           </div>
+                       
+                           <form id="filterForm" action="{% url 'available_products' %}" method="get">
+                               {% csrf_token %}
+                               <button type="submit" class="tp-btn tp-btn-2">Filter</button>
+                           </form>
+                       
+                           <script>
+                               // Remove existing submit event listeners
+                               $('#filterForm').off('submit');
+                       
+                               // Add a new submit event listener
+                               $('#filterForm').on('submit', function(event) {
+                                   var isOnSaleChecked = $('#on_sale').prop('checked');
+                                   var isInStockChecked = $('#in_stock').prop('checked');
+                       
+                                   if (isOnSaleChecked && isInStockChecked) {
+                                       // Both checkboxes are checked, set the form action for available products
+                                       $(this).attr('action', '{% url "available_products" %}');
+                                   } else if (isOnSaleChecked) {
+                                       // Only "On sale" checkbox is checked, set the form action for on sale products
+                                       $(this).attr('action', '{% url "on_sale_products" %}');
+                                   } else if (isInStockChecked) {
+                                       // Only "In Stock" checkbox is checked, set the form action for in stock products
+                                       $(this).attr('action', '{% url "available_products" %}');
+                                   } else {
+                                       // No checkboxes are checked, show an alert and prevent the form from submitting
+                                       alert("Please select at least one checkbox.");
+                                       event.preventDefault();
+                                   }
+                               });
+                           </script>
+                       </div>
+                       
+                       
                       
                         <!-- color -->
                       
@@ -835,7 +843,13 @@
                                                 <span><i class="fa-solid fa-star"></i></span>
                                              </div>
                                              <div class="tp-product-price-wrapper-2">
+                                                {% if  product.price %}
+                                                <span class="tp-product-price-2 new-price">{{product.price}}</span>
+                                                {% else %}
                                                 <span class="tp-product-price-2 new-price">{{product.product.price}}</span>
+                                                {% endif %}
+                                               
+                                                
                                                
                                              </div>
                                           </div>
@@ -934,35 +948,31 @@
                         </div>
                         <div class="tp-shop-pagination mt-20">
                            <div class="tp-pagination">
+                              
                               <nav>
                                  <ul>
-                                    <li>
-                                       <a href="shop.html" class="tp-pagination-prev prev page-numbers">
-                                          <svg width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                             <path d="M1.00017 6.77879L14 6.77879" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                             <path d="M6.24316 11.9999L0.999899 6.77922L6.24316 1.55762" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                          </svg>
-                                       </a>
-                                    </li>
-                                    <li>
-                                       <a href="shop.html">1</a>
-                                    </li>
-                                    <li>
-                                       <span class="current">2</span>
-                                    </li>
-                                    <li>
-                                       <a href="shop.html">3</a>
-                                    </li>
-                                    <li>
-                                       <a href="shop.html" class="next page-numbers">
-                                          <svg width="15" height="13" viewBox="0 0 15 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                             <path d="M13.9998 6.77883L1 6.77883" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                             <path d="M8.75684 1.55767L14.0001 6.7784L8.75684 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                          </svg>                                     
-                                       </a>
-                                    </li>
+                                     {% if page_obj.has_previous %}
+                                         <li>
+                                             <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                                         </li>
+                                     {% endif %}
+                             
+                                     {% for num in page_range %}
+                                         {% if page_obj.number == num %}
+                                             <li class="active"><span>{{ num }}</span></li>
+                                         {% else %}
+                                             <li><a href="?page={{ num }}">{{ num }}</a></li>
+                                         {% endif %}
+                                     {% endfor %}
+                             
+                                     {% if page_obj.has_next %}
+                                         <li>
+                                             <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                                         </li>
+                                     {% endif %}
                                  </ul>
-                               </nav>
+                             </nav>
+                             
                            </div>
                         </div>
                      </div>
@@ -1260,6 +1270,20 @@
       </footer>
       <!-- footer area end -->
 
+
+      
+     
+     
+     
+
+
+
+
+
+
+
+
+
    
       <script>
          function addToCart(productID) {
@@ -1288,8 +1312,11 @@
 
     function inStockCheckboxClicked() {
         // Code to execute when the "In Stock" checkbox is clicked
-        alert("In Stock checkbox clicked");
-        // You can add more logic here
+        fetch('/available_products/') 
+         .then((response) => {
+               return response.json();
+         })
+
     }
 
          function wishlistishlist(productID) {
