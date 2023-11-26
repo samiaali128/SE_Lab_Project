@@ -8,6 +8,7 @@ from .models import Product , ProductCategory , ProductImage  , Cart , Deliverie
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from datetime import datetime
 
 
 
@@ -499,6 +500,50 @@ def shop(request):
     
 
     return render(request, "shop/shop.html", context)
+
+
+def upload_product(request):
+
+    if request.method == "POST":
+        product_name = request.POST.get("product_name")
+        price = request.POST.get("prices")
+        quantity = request.POST.get("quantity")
+        description = request.POST.get("description")
+        category = request.POST.get("categories")
+        image = request.FILES.get("image")
+        side_image = request.FILES.get("sideimage")
+        back_image = request.FILES.get("backimage")
+        front_image = request.FILES.get("frontimage")
+        
+        if image == None and side_image == None and back_image == None and front_image == None:
+            return HttpResponse("Please upload images")
+        
+        if image == None:
+            return JsonResponse({'message': 'Please upload Front image'})
+        
+
+        
+        if product_name != None and price != None and quantity != None and description != None and category != None :
+            categori = None
+            if ProductCategory.objects.filter(category_name=category).exists():
+                categori = ProductCategory.objects.get(category_name=category)
+                
+            
+            elif categori == None:
+                categori = ProductCategory.objects.create(category_name=category)
+                categori.save()
+               
+            publish_date =datetime.now().strftime('%Y-%m-%d')
+            product = Product.objects.create(product_name=product_name, price=price, quantity=quantity,  pub_date  = publish_date ,     description=description, category_id=categori.id)
+            product.save()
+            product_image = ProductImage.objects.create(product_id=product, image=image, side_image=side_image, back_image=back_image, front_image=front_image)
+            product_image.save()
+            return JsonResponse({'message': 'Product uploaded successfully'})
+
+ 
+        else:
+            return HttpResponse("Please fill all the fields")
+    return render(request , "shop/file-upload.html")
 
 def register(request):
     return render(request , "shop/register.html")

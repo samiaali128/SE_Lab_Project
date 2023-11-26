@@ -1,0 +1,669 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from pepdev.com/template/apez/admin/file-upload.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 25 Nov 2023 11:06:53 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Apez Admin Template | File upload</title>
+
+    {% load static %}
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.png'%}">
+
+    <!-- Switcher .css'%} -->
+    <link rel="stylesheet" href="{% static 'assets/plugin/switchery/switchery.min..css'%}" />
+    <!-- Dropzone .css'%} -->
+    <link rel="stylesheet" href="{% static 'assets/plugin/dropzone/dropzone.min..css'%}" />
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="{% static 'dist/css/style.css'%}" />
+    
+</head>
+<body>
+
+    <div class="loader-wrapper">
+        <div class="loader spinner-3">
+            <div class="bg-primary"></div>
+            <div class="bg-primary"></div>
+            <div class="bg-primary"></div>
+            <div class="bg-primary"></div>
+            <div class="bg-primary"></div>
+            <div class="bg-primary"></div>
+            <div class="bg-primary"></div>
+            <div class="bg-primary"></div>
+            <div class="bg-primary"></div>
+        </div>
+    </div>
+    
+    <div class="wrapper">
+        <!-- Main Container -->
+        <div id="main-wrapper" class="menu-fixed page-hdr-fixed">
+            <!-- Menu Wrapper -->
+            <div class="menu-wrapper">
+                <div class="menu">
+                    <!-- Menu Container -->
+                    <ul>
+                        <li class="menu-title">Main</li>
+                      
+                     
+                       
+                        <li class="has-sub active">
+                            <a><i class="icon-note"></i><span>New Products</span><i class="arrow rotate"></i></a>
+                            <ul class="sub-menu">
+                                <li>
+                                    <a href="form-basic.html"><span></span></a>
+                                </li>
+                                <li>
+                                    <a href="form-layout.html"><span></span></a>
+                                </li>
+                                <li>
+                                    <a href="form-mask.html"><span></span></a>
+                                </li>
+                                <li>
+                                    <a href="date-time-picker.html"><span></span></a>
+                                </li>
+                                <li>
+                                    <a href="file-upload.html"><span></span></a>
+                                </li>
+                                <li>
+                                    <a href="form-summernote.html"><span></span></a>
+                                </li>
+                            </ul>
+                        </li>
+                       
+                       
+                        
+                       
+                        
+                       
+                      
+                      
+                      
+                       
+                      
+                    </ul>
+                </div>
+            </div>
+            <!-- Page header -->
+            <div class="page-hdr">
+                <div class="row align-items-center">
+                    <div class="col-4 col-md-7 page-hdr-left">
+                        <!-- Logo Container -->
+                        <div id="logo">
+                            <div class="tbl-cell logo-icon">
+                                <a href="#"><img src="{% static 'images/icon.png'%}" alt=""></a>
+                            </div>
+                            <div class="tbl-cell logo">
+                                <a href="#"><img src="{% static 'images/logo.png'%}"></a>
+                            </div>
+                        </div>
+                        <div class="page-menu menu-icon">
+                            <a class="animated menu-close"><i class="far fa-hand-point-left"></i></a>
+                        </div>
+                        <div class="page-menu page-fullscreen">
+                            <a><i class="fas fa-expand"></i></a>
+                        </div>
+                        <div class="page-search">
+                            <input type="text" placeholder="Search your key....">
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <!-- Main Page Wrapper -->
+            <div class="page-wrapper">
+                <!-- Page Title -->
+                <div class="page-title">
+                    <div class="row align-items-center">
+                        <div class="col-sm-6">
+                            <h2 class="page-title-text">File Upload (Dropzone)</h2>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <div class="breadcrumbs">
+                                <ul>
+                                    <li><a href="#">Home</a></li>
+                                    <li>File Upload</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Page Body -->
+                <div class="page-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="panel">
+                                <div class="panel-head">
+                                    <h5 class="panel-title">Side Image Upload</h5>
+                                </div>
+                                <div class="panel-body">
+                                    <form method="post" action="{% url 'upload_product' %}" enctype="multipart/form-data" onsubmit="return validateForm()">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <label for="imageUpload">Upload Image</label>
+                                            <div class="custom-file">
+                                              
+                                                <input type="file" class="custom-file-input" id="sideimage" name="sideimage" accept="image/*" onchange="updateFileName('sideimage')">
+                                                <label class="custom-file-label" for="sideimage">Choose file</label>
+                                            </div>
+                                        </div>
+                                        <!-- Add other form fields if needed -->
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                       
+
+<div class="col-sm-6">
+    <div class="panel">
+        <div class="panel-head">
+            <h5 class="panel-title">Back Image Upload</h5>
+        </div>
+        <div class="panel-body">
+            <form method="post" action="{% url 'upload_product' %}" enctype="multipart/form-data" onsubmit="return validateForm()">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="imageUpload">Upload Image</label>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="backimage" name="backimage" accept="image/*" onchange="updateFileName('backimage')">
+                        <label class="custom-file-label" for="backimage">Choose file</label>
+                    </div>
+                </div>
+                <!-- Add other form fields if needed -->
+            
+        </div>
+    </div>
+</div>
+
+
+<div class="col-sm-6">
+    <div class="panel">
+        <div class="panel-head">
+            <h5 class="panel-title">Front Image Upload</h5>
+        </div>
+        <div class="panel-body">
+            <form method="post" action="{% url 'upload_product' %}" enctype="multipart/form-data" onsubmit="return validateForm()">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="imageUpload">Upload Image</label>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="frontimage" name="frontimage" accept="image/*" onchange="updateFileName('frontimage')">
+                        <label class="custom-file-label" for="frontimage">Choose file</label></div>
+                </div>
+                <!-- Add other form fields if needed -->
+            
+        </div>
+    </div>
+</div>
+
+
+                        <div class="col-sm-6">
+                            <div class="panel">
+                                <div class="panel-head">
+                                    <h5 class="panel-title">Only Image Upload</h5>
+                                </div>
+                                <div class="panel-body">
+                                    <form method="post" action="{% url 'upload_product' %}" enctype="multipart/form-data" onsubmit="return validateForm()">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <label for="imageUpload">Upload Image</label>
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="image" name="image" accept="image/*" onchange="updateFileName('image')">
+                                                <label class="custom-file-label" for="image">Choose file</label>
+                                            </div>
+                                        </div>
+                                        <!-- Add other form fields if needed -->
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <script>
+                            function updateFileName(inputId) {
+                                var input = document.getElementById(inputId);
+                                var label = document.querySelector('[for=' + inputId + ']');
+                                var fileName = input.files[0].name;
+                                label.textContent = fileName;
+                            }
+                        </script>
+                        
+                       
+                        <div class="col-12">
+                            <div class="panel panel-default">
+                                <div class="panel-head">
+                                    <div class="panel-title">
+                                        <span class="panel-title-text">Default Form Layout</span>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                   
+                                        
+                                        <div class="form-group">
+                                            <label for="col-form-label">Categories</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="icon-user"></i></span>
+                                                </div>
+                                                <input type="text" name="categories" id="categories-input" class="form-control" placeholder="Enter Categorie">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-form-label">Product Name</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="icon-envelope"></i></span>
+                                                </div>
+                                                <input type="text" name="product_name" id="product_name_input"  class="form-control" placeholder="Enter prorduct name">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-form-label">Quantity</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="icon-lock"></i></span>
+                                                </div> 
+                                                <input type="text" name="quantity" id="quantity_input" class="form-control" placeholder="Enter Quantity">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-form-label">Description</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="icon-lock"></i></span>
+                                                </div>
+                                                <input type="text" name="description" id="description_input" class="form-control" placeholder="Enter Description">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Price</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">$</span>
+                                                </div>
+                                                <input type="number"  name="prices" id="prices_input" class="form-control" placeholder="Enter Price" value="99.9">
+                                            </div>
+                                        </div>
+                                       
+                                    
+                                </div>
+                                <div class="panel-footer text-right">
+                                    <button class="btn btn-default btn-pill mr-2">Cancel</button>
+                                    <button class="btn btn-info btn-pill">Submit</button>
+                                </div>
+                            </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Page Footer -->
+            <div class="page-ftr">
+                <div>© 2018. Cryptoboard Admin Template by ManasaTheme</div>
+            </div>
+        </div>
+        <!-- Sidebar Section -->
+        <div class="sidebar sidebar-right">
+            <div class="sidebar-close"><i class="icon-close"></i></div>
+            <div class="content">
+                <ul class="nav nav-tabs nav-tabs-line nav-tabs-line-primary">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#sidebar-member" data-toggle="tab">Member</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#sidebar-setting" data-toggle="tab">Settings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#sidebar-log" data-toggle="tab">Logs</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="sidebar-member">
+                        <div class="pl-2 pr-2">
+                            <div class="box-title pb-3">Premium Member</div>
+                            <div class="user-list br-bottom-1x pb-4">
+                                <ul>
+                                    <li>
+                                        <div class="tbl-cell image">
+                                            <img src="{% static 'uploads/team-1.jpg'%}" alt="">
+                                        </div>
+                                        <div class="tbl-cell content">
+                                            <a>Steve Soren</a>
+                                            <p>Lead Developer at Ipos.</p>
+                                        </div>
+                                        <div class="tbl-cell follow">
+                                            <a href="#" class="btn btn-outline btn-info btn-pill btn-outline-1x btn-sm">Follow</a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="tbl-cell image">
+                                            <img src="{% static 'uploads/team-2.jpg'%}" alt="">
+                                        </div>
+                                        <div class="tbl-cell content">
+                                            <a>Cheri Aria</a>
+                                            <p>Photographer and Lead Designer.</p>
+                                        </div>
+                                        <div class="tbl-cell follow">
+                                            <a href="#" class="btn btn-info btn-pill btn-sm">Following</a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="tbl-cell image">
+                                            <img src="{% static 'uploads/team-3.jpg'%}" alt="">
+                                        </div>
+                                        <div class="tbl-cell content">
+                                            <a>Daniel Barnes</a>
+                                            <p>Manager at IT park.</p>
+                                        </div>
+                                        <div class="tbl-cell follow">
+                                            <a href="#" class="btn btn-outline btn-info btn-pill btn-outline-1x btn-sm">Follow</a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="tbl-cell image">
+                                            <img src="{% static 'uploads/team-4.jpg'%}" alt="">
+                                        </div>
+                                        <div class="tbl-cell content">
+                                            <a>Janet Collins</a>
+                                            <p>Developer at atios.</p>
+                                        </div>
+                                        <div class="tbl-cell follow">
+                                            <a href="#" class="btn btn-outline btn-info btn-pill btn-outline-1x btn-sm">Follow</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="box-title pt-3 pb-3">Users</div>
+                            <div class="user-list">
+                                <ul>
+                                    <li>
+                                        <div class="tbl-cell image">
+                                            <img src="{% static 'uploads/team-1.jpg'%}" alt="">
+                                        </div>
+                                        <div class="tbl-cell content">
+                                            <a>Steve Soren</a>
+                                            <p>Lead Developer at Ipos.</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="tbl-cell image">
+                                            <img src="{% static 'uploads/team-2.jpg'%}" alt="">
+                                        </div>
+                                        <div class="tbl-cell content">
+                                            <a>Cheri Aria</a>
+                                            <p>Photographer and Lead Designer.</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="tbl-cell image">
+                                            <img src="{% static 'uploads/team-3.jpg'%}" alt="">
+                                        </div>
+                                        <div class="tbl-cell content">
+                                            <a>Daniel Barnes</a>
+                                            <p>Manager at IT park.</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="tbl-cell image">
+                                            <img src="{% static 'uploads/team-4.jpg'%}" alt="">
+                                        </div>
+                                        <div class="tbl-cell content">
+                                            <a>Janet Collins</a>
+                                            <p>Developer at atios.</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="sidebar-setting">
+                        <div class="pl-2 pr-2">
+                            <div class="box-title pb-3">General Setting</div>
+                            <div class="setting-list">
+                                <ul>
+                                    <li class="item">
+                                        <div class="label">Email Notifications</div>
+                                        <div class="control"><input type="checkbox" checked class="js-switch" data-color="#13dafe" /></div>
+                                    </li>
+                                    <li class="item">
+                                        <div class="label">Comment auto Publish</div>
+                                        <div class="control"><input type="checkbox" class="js-switch" data-color="#13dafe" /></div>
+                                    </li>
+                                    <li class="item">
+                                        <div class="label">Review Auto Publish</div>
+                                        <div class="control"><input type="checkbox" checked class="js-switch" data-color="#13dafe" /></div>
+                                    </li>
+                                    <li class="item">
+                                        <div class="label">Post Setting</div>
+                                        <div class="control"><input type="checkbox" class="js-switch" data-color="#13dafe" /></div>
+                                    </li>
+                                    <li class="item">
+                                        <div class="label">Cron Log</div>
+                                        <div class="control"><input type="checkbox" class="js-switch" data-color="#13dafe" /></div>
+                                    </li>
+                                    <li class="item">
+                                        <div class="label">Email Log</div>
+                                        <div class="control"><input type="checkbox" checked class="js-switch" data-color="#13dafe" /></div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="sidebar-log">
+                        <div class="pl-2 pr-2">
+                            <div class="box-title pb-3">Server and Application Logs</div>
+                            <ul class="timeline">
+                                <li>
+                                    <div class="time"><small>Just Now</small></div>
+                                    <a href="#" target="_blank" class="timeline-container">
+                                        <div class="arrow"></div>
+                                        <div class="description">21 new users registered </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <div class="time"><small>11 mins</small></div>
+                                    <a href="#" target="_blank" class="timeline-container">
+                                        <div class="arrow"></div>
+                                        <div class="description">New invoice generated <span class="badge badge-danger badge-pill badge-sm">Unpaid</span></div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <div class="time"><small>15 mins</small></div>
+                                    <a href="#" target="_blank" class="timeline-container">
+                                        <div class="arrow"></div>
+                                        <div class="description">Cron Job Completed</div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <div class="time"><small>20 mins</small></div>
+                                    <a href="#" target="_blank" class="timeline-container">
+                                        <div class="arrow"></div>
+                                        <div class="description">Server Restarted <span class="badge badge-success badge-pill badge-sm">Resolved</span></div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <div class="time"><small>25 mins</small></div>
+                                    <a href="#" target="_blank" class="timeline-container">
+                                        <div class="arrow"></div>
+                                        <div class="description">New order received</div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <div class="time"><small>30 mins</small></div>
+                                    <a href="#" target="_blank" class="timeline-container">
+                                        <div class="arrow"></div>
+                                        <div class="description">New ticket created <span class="badge badge-warning badge-pill badge-sm">High</span></div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <div class="time"><small>35 mins</small></div>
+                                    <a href="#" target="_blank" class="timeline-container">
+                                        <div class="arrow"></div>
+                                        <div class="description">Payment Made by client $350.</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- End Sidebar Section -->
+    </div>
+
+
+    <!-- Include js files -->
+    <!-- Vendor Plugin -->
+    <script type="text/javascript" src="{% static 'assets/plugin/vendor.min.js'%}"></script>
+    <!-- Dropzone Plugin -->
+    <script type="text/javascript" src="{% static 'assets/plugin/dropzone/dropzone.min.js'%}"></script>
+    <!-- Custom Script Plugin -->
+    <script type="text/javascript" src="{%static 'dist/js/custom.js'%}"></script>
+    <script>
+        // ============================================================== 
+        // Dropzone
+        // ==============================================================
+        Dropzone.autoDiscover = false;
+        $("#dropzone0").dropzone({
+            addRemoveLinks: true,
+            dictDefaultMessage: 'Drop files here or click here to upload.<br /> Upload Any Files.',
+            dictInvalidFileType: 'Please Upload Image only',
+            success: function (file, response) {
+                toastr.success('Files Uploaded successfully!');
+            },
+            removedfile: function(file) {
+                toastr.warning('Files Removed successfully!');
+                var _ref;
+                return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+            }
+        });
+        $("#dropzone1").dropzone({
+            addRemoveLinks: true,
+            acceptedFiles: 'image/*',
+            dictDefaultMessage: 'Drop files here or click here to upload. <br /> Only Images Allowed',
+            success: function (file, response) {
+                toastr.success('Files Uploaded successfully!');
+            },
+            removedfile: function(file) {
+                toastr.warning('Files Removed successfully!');
+                var _ref;
+                return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+            }
+        });
+        $("#dropzone2").dropzone({
+            addRemoveLinks: true,
+            acceptedFiles: 'application/pdf',
+            dictInvalidFileType: 'Please Upload PDF only',
+            dictDefaultMessage: 'Drop files here or click here to upload. <br /> Only PDF Allowed',
+            success: function (file, response) {
+                toastr.success('Files Uploaded successfully!');
+            },
+            removedfile: function(file) {
+                toastr.warning('Files Removed successfully!');
+                var _ref;
+                return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+            }
+        });
+        $("#dropzone3").dropzone({
+            addRemoveLinks: true,
+            maxFiles: 1,
+            acceptedFiles: 'application/pdf',
+            dictDefaultMessage: 'Drop files here or click here to upload. <br /> You can Uplaod one file only',
+            success: function (file, response) {
+                toastr.success('Files Uploaded successfully!');
+            },
+            removedfile: function(file) {
+                toastr.warning('Files Removed successfully!');
+                var _ref;
+                return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+            }
+        });
+        $("#dropzone4").dropzone({
+            addRemoveLinks: true,
+            dictDefaultMessage: 'Drop files here or click here to upload.<br /> Upload Any Files.',
+            dictInvalidFileType: 'Please Upload Image only',
+            maxFilesize: 100,
+            success: function (file, response) {
+                toastr.success('Files Uploaded successfully!');
+            },
+            removedfile: function(file) {
+                toastr.warning('Files Removed successfully!');
+                var _ref;
+                return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+            }
+        });
+        $("#dropzone5").dropzone({
+            addRemoveLinks: true,
+            dictDefaultMessage: 'Drop files here or click here to upload.<br /> Upload Any Files.',
+            dictInvalidFileType: 'Please Upload Image only',
+            success: function (file, response) {
+                toastr.success('Files Uploaded successfully!');
+            },
+            removedfile: function(file) {
+                toastr.warning('Files Removed successfully!');
+                var _ref;
+                return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+            }
+        });
+        $("#dropzone6").dropzone({
+            addRemoveLinks: true,
+            dictDefaultMessage: 'Drop files here or click here to upload.<br /> Upload Any Files.',
+            dictInvalidFileType: 'Please Upload Image only',
+            success: function (file, response) {
+                toastr.success('Files Uploaded successfully!');
+            },
+            removedfile: function(file) {
+                toastr.warning('Files Removed successfully!');
+                var _ref;
+                return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+            }
+        });
+        $("#dropzone7").dropzone({
+            addRemoveLinks: true,
+            dictDefaultMessage: 'Drop files here or click here to upload.<br /> Upload Any Files.',
+            dictInvalidFileType: 'Please Upload Image only',
+            success: function (file, response) {
+                toastr.success('Files Uploaded successfully!');
+            },
+            removedfile: function(file) {
+                toastr.warning('Files Removed successfully!');
+                var _ref;
+                return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+            }
+        });
+
+    </script>
+    <script>
+        Dropzone.options.dropzone1 = {
+            autoProcessQueue: false,
+            // other options...
+        };
+    </script>
+    <script>
+        function validateForm() {
+            // Check if any file is uploaded in Dropzone
+            var isFileUploaded = Dropzone.forElement("#dropzone1").files.length > 0;
+        
+            // Check if other data fields are filled
+            var categoriesFilled = document.getElementById("categories-input").value.trim() !== "";
+            var productNameFilled = document.getElementById("product_name_input").value.trim() !== "";
+            var quantityFilled = document.getElementById("quantity_input").value.trim() !== "";
+            var descriptionFilled = document.getElementById("description_input").value.trim() !== "";
+            var priceFilled = document.getElementById("prices_input").value.trim() !== "";
+        
+            // If all conditions are met, allow form submission
+            if (isFileUploaded && categoriesFilled && productNameFilled && quantityFilled && descriptionFilled && priceFilled) {
+                return true;
+            } else {
+                alert("Please upload an image and fill all the data fields.");
+                return false; // Prevent form submission
+            }
+        }
+        </script>
+        
+    
+</body>
+
+<!-- Mirrored from pepdev.com/template/apez/admin/file-upload.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 25 Nov 2023 11:06:54 GMT -->
+</html>

@@ -28,6 +28,7 @@ urlpatterns = [
     path("clothing/order_history", views.order_history, name="order_history"),
     path("available_products", views.available_products, name="available_products"),
     path("on_sale_products" , views.on_sale_products , name="on_sale_products"),
+    path("clothing/upload_product", views.upload_product, name="upload_product"),
 ]
 
 if settings.DEBUG:
