@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import ProductCategory, Product, Cart , ProductImage , ShippingAddress , Deliveries , ProductInDelivery , WeeklyOffers , Wishlist
+from .models import ProductCategory, Product, Cart , ProductImage , ShippingAddress , Deliveries , ProductInDelivery , WeeklyOffers , Wishlist , Auditloginfo , CartsAudit , WishlistAudit
 
 admin.site.register(ProductCategory)
 admin.site.register(Product)
@@ -12,6 +12,10 @@ admin.site.register(ProductInDelivery)
 admin.site.register(Deliveries)
 admin.site.register(WeeklyOffers)
 admin.site.register(Wishlist)
+admin.site.register(Auditloginfo)
+admin.site.register(CartsAudit)
+admin.site.register(WishlistAudit)
+
 
 
 
@@ -77,3 +81,23 @@ class WishlistAdmin(admin.ModelAdmin):
     list_filter = ('id', 'user', 'product_id', 'created_at', 'updated_at', 'status')
     search_fields = ('id', 'user', 'product_id', 'created_at', 'updated_at', 'status')
     ordering = ('id', 'user', 'product_id', 'created_at', 'updated_at', 'status')
+
+
+class AuditloginfoAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'column_name', 'old_value', 'new_value', 'created_at', 'updated_at', 'status')
+    list_filter = ('id', 'user', 'old_password', 'new_password', 'created_at', 'updated_at', 'status')
+    search_fields = ('id', 'user', 'old_password','new_password',  'created_at', 'updated_at', 'status')
+    ordering = ('id', 'user', 'old_password', 'new_password',  'created_at', 'updated_at', 'status')
+
+class CartsAuditAdmin(admin.ModelAdmin):
+    list_display = ('id', 'cart_id', 'action_type', 'timestamp', 'user', 'product_id',  'status')
+    list_filter = ('id', 'user', 'product_id', 'quantity', 'created_at', 'updated_at', 'status')
+    search_fields = ('id', 'user', 'product_id', 'quantity', 'created_at', 'updated_at', 'status')
+    ordering = ('id', 'user', 'product_id', 'quantity', 'created_at', 'updated_at', 'status')
+
+
+class WishlistAuditAdmin(admin.ModelAdmin):
+    list_display = ('id', 'wishlist_id', 'action_type', 'timestamp', 'user', 'product_id',  'column_name' , 'old_value' , 'new_value' )
+    list_filter = ('id', 'wishlist_id', 'action_type', 'timestamp', 'user', 'product_id',  'column_name' , 'old_value' , 'new_value' )
+    search_fields = ('id', 'wishlist_id', 'action_type', 'timestamp', 'user', 'product_id',  'column_name' , 'old_value' , 'new_value' )
+    ordering =('id', 'wishlist_id', 'action_type', 'timestamp', 'user', 'product_id',  'column_name' , 'old_value' , 'new_value' )
