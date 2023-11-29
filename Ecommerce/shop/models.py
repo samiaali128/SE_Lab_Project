@@ -78,6 +78,7 @@ class CartsAudit(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     product_id = models.IntegerField()
     status = models.CharField(max_length=50 , default="Active")
+    #
 
     def __str__(self):
         return f'{self.action_type} on {self.timestamp} by {self.user}'
