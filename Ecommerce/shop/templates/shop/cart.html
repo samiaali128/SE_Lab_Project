@@ -830,7 +830,7 @@ function calculateInitialTotal() {
     
     if (isConfirmed) {
       document.getElementById('cartIDInput').value = cartID;
-      alert(cartID)
+      
       document.getElementById('removeForm').submit();
        
     }
@@ -867,9 +867,7 @@ function calculateInitialTotal() {
                   cartData.push(cartItem);
               });
   
-              // Alert for testing
-              alert('Cart IDs: ' + cartIds.join(', '));
-              alert('Quantities: ' + quantities.join(', '));
+             
   
               // Create hidden inputs for each cart ID and quantity
               cartIds.forEach(function (cartId) {
