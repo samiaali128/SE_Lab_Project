@@ -54,7 +54,7 @@ class ShippingAddressAdmin(admin.ModelAdmin):
     search_fields = ('id', 'dilivery_id', 'first_name', 'last_name', 'email', 'address', 'country', 'state', 'zip_code', 'created_at', 'updated_at', 'status')
     ordering = ('id', 'dilivery_id', 'first_name', 'last_name', 'email', 'address', 'country', 'state', 'zip_code', 'created_at', 'updated_at', 'status')
 
-
+#
 class DeliveriesAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'product_id', 'quantity', 'created_at', 'updated_at', 'status')
     list_filter = ('id', 'user', 'product_id', 'quantity', 'created_at', 'updated_at', 'status')
