@@ -4,11 +4,23 @@ from django.contrib.auth import  login  , authenticate , logout
 from django.http import HttpResponseRedirect
 from django.urls import reverse 
 from django.db.models import Q
-from .models import Product , ProductCategory , ProductImage  , Cart , Deliveries , ShippingAddress , ProductInDelivery , WeeklyOffers , Wishlist
+from .models import Product , ProductCategory , ProductImage  , Cart , Deliveries , ShippingAddress , ProductInDelivery , WeeklyOffers , Wishlist  , CartsAudit , WishlistAudit
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth.decorators import login_required
+from datetime import datetime
 
+
+
+def create_audit_log(cart_id, action_type, user_id, product_id ,status):
+    CartsAudit.objects.create(
+        cart_id=cart_id,
+        action_type=action_type,
+        user=user_id,
+        product_id=product_id,
+        status= status
+    )
 
 
 @csrf_exempt  
@@ -21,6 +33,7 @@ def add_to_cart(request):
         # first check exist and status is active in cart
 
         if Cart.objects.filter(product_id=product_id, user_id=user_id, status='Active').exists():
+
             return JsonResponse({'message': 'Product already added to the cart'})
         
         # check if product quantity is available
@@ -35,16 +48,34 @@ def add_to_cart(request):
                 cart.status = 'Active'
                 cart.quantity = 0
                 cart.save()
+                cart_action = 'UPDATE'
+                create_audit_log(cart.id, cart_action, request.user, product.id , "Active")
                 return JsonResponse({'message': 'Product added to the cart successfully'})
             else:
+
                 cart = Cart.objects.create(product_id=product, user_id=user_id , quantity=0)
                 cart.save()
+                cart_action = 'INSERT'
+                create_audit_log(cart.id, cart_action, request.user, product.id  , "Active")
+
                 return JsonResponse({'message': 'Product added to the cart successfully'})
 
 
       
     return JsonResponse({'message': 'Invalid request'})
 
+
+def create_wishlist_audit_log(wishlist_id, action_type, user_id, product_id ,column_name , old_value , new_value):
+    WishlistAudit.objects.create(
+        wishlist_id=wishlist_id,
+        action_type=action_type,
+        user=user_id,
+        product_id=product_id,
+        column_name=column_name,
+        old_value=old_value,
+        new_value=new_value
+
+    )
 
 @csrf_exempt
 def add_to_wishlist(request):
@@ -67,6 +98,9 @@ def add_to_wishlist(request):
         else:
             wishlist = Wishlist.objects.create(product_id=product, user_id=user_id)
             wishlist.save()
+            action = 'INSERT'
+            create_wishlist_audit_log(wishlist.id, action, request.user, product.id , "New_Record" , "None" , "None")
+
             return JsonResponse({'message': 'Product added to the wishlist successfully'})
 
     return JsonResponse({'message': 'Invalid request method'})
@@ -99,9 +133,6 @@ def available_products(requests):
         
         return render(requests, "shop/404.html")
 
-           
-
-       
 
 @csrf_exempt
 def remove_from_wishlist(request):
@@ -111,6 +142,9 @@ def remove_from_wishlist(request):
         try:
             wishlist_item = Wishlist.objects.get(product_id=product_id, user_id=user_id)
             if wishlist_item:
+                wishlist_action = 'DELETE'
+                create_wishlist_audit_log(wishlist_item.id, wishlist_action, request.user, wishlist_item.product_id.id , "Status" , "Active" , "Deactive")
+                wishlist_item.status = 'Deactive'
                 wishlist_item.delete()
                 return JsonResponse({'message': 'Product removed from the wishlist successfully'})
             else:
@@ -170,7 +204,6 @@ def productDetails(request , id):
     return render(request , "shop/product-details.html" , context)
 
 
-
 def wishlist(request):
 
     if request.method == "GET":
@@ -196,6 +229,8 @@ def wishlist(request):
         return render(request, "shop/wishlist.html" , context)
     
     return render(request , "shop/wishlist.html")
+
+
 
 def clothing(request):
    
@@ -299,6 +334,9 @@ def remove_item_view(request):
             user = request.user.id
             cart_item = Cart.objects.get(id=cart_id, user_id=user)
             if cart_item:
+                cart_action = 'DELETE'
+                create_audit_log(cart_item.id, cart_action, request.user, cart_item.product_id.id , "Deactive")
+
                 cart_item.delete()
             else:
                 return JsonResponse({'message': 'Cart item not found'})
@@ -306,6 +344,7 @@ def remove_item_view(request):
         except Cart.DoesNotExist:
             return JsonResponse({'message': 'Cart not found'})
     return JsonResponse({'message': 'Invalid request'})
+
     
 def checkout(request):
     if request.method == "GET":
@@ -443,6 +482,8 @@ def update_cart(request):
             cart_item = Cart.objects.get(id=cart_ids[i], user_id=user)
             if cart_item:
                 cart_item.quantity = quantities[i]
+                cart_action = 'UPDATE'
+                create_audit_log(cart_item.id, cart_action, request.user, cart_item.product_id.id , "Active")
                 cart_item.save()
             else:
                 return JsonResponse({'message': 'Cart item not found'})
@@ -500,13 +541,56 @@ def shop(request):
 
     return render(request, "shop/shop.html", context)
 
+
+def upload_product(request):
+
+    if request.method == "POST":
+        product_name = request.POST.get("product_name")
+        price = request.POST.get("prices")
+        quantity = request.POST.get("quantity")
+        description = request.POST.get("description")
+        category = request.POST.get("categories")
+        image = request.FILES.get("image")
+        side_image = request.FILES.get("sideimage")
+        back_image = request.FILES.get("backimage")
+        front_image = request.FILES.get("frontimage")
+        
+        if image == None and side_image == None and back_image == None and front_image == None:
+            return HttpResponse("Please upload images")
+        
+        if image == None:
+            return JsonResponse({'message': 'Please upload Front image'})
+        
+
+        
+        if product_name != None and price != None and quantity != None and description != None and category != None :
+            categori = None
+            if ProductCategory.objects.filter(category_name=category).exists():
+                categori = ProductCategory.objects.get(category_name=category)
+                
+            
+            elif categori == None:
+                categori = ProductCategory.objects.create(category_name=category)
+                categori.save()
+               
+            publish_date =datetime.now().strftime('%Y-%m-%d')
+            product = Product.objects.create(product_name=product_name, price=price, quantity=quantity,  pub_date  = publish_date ,     description=description, category_id=categori.id)
+            product.save()
+            product_image = ProductImage.objects.create(product_id=product, image=image, side_image=side_image, back_image=back_image, front_image=front_image)
+            product_image.save()
+            return JsonResponse({'message': 'Product uploaded successfully'})
+
+ 
+        else:
+            return HttpResponse("Please fill all the fields")
+    return render(request , "shop/file-upload.html")
+
 def register(request):
     return render(request , "shop/register.html")
 
-def logins(request):
 
-   
-    
+@csrf_exempt
+def logins(request):
     if request.method == "POST":
         email = request.POST.get("email")
         password = request.POST.get("tp_password")
