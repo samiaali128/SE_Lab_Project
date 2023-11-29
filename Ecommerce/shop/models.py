@@ -68,6 +68,20 @@ class ProductInDelivery(models.Model):
     
     def __str__(self):
          return self.product.product_name
+    
+
+class CartsAudit(models.Model):
+    id = models.AutoField(primary_key=True)
+    cart_id = models.IntegerField()
+    action_type = models.CharField(max_length=10)  # 'INSERT', 'UPDATE', 'DELETE'
+    timestamp = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    product_id = models.IntegerField()
+    status = models.CharField(max_length=50 , default="Active")
+
+    def __str__(self):
+        return f'{self.action_type} on {self.timestamp} by {self.user}'
+
 
 class ShippingAddress(models.Model):
     id = models.AutoField(primary_key=True)
@@ -115,7 +129,23 @@ class WeeklyOffers(models.Model):
     def __str__(self):
         return self.product_id.product_name
     
+class WishlistAudit(models.Model):
+    id = models.AutoField(primary_key=True)
+    wishlist_id = models.IntegerField()
+    action_type = models.CharField(max_length=10)  # 'INSERT', 'UPDATE', 'DELETE'
+    timestamp = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    product_id = models.IntegerField()
+    column_name = models.CharField(max_length=50)
+    old_value = models.CharField(max_length=50)
+    new_value = models.CharField(max_length=50)
+    
 
+    def __str__(self):
+        return f'{self.action_type} on {self.timestamp} by {self.user}'
+    
+
+    
 class Wishlist(models.Model):
     id = models.AutoField(primary_key=True)
     product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -126,3 +156,15 @@ class Wishlist(models.Model):
 
     def __str__(self):
         return self.product_id.product_name
+    
+class Auditloginfo(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    old_password = models.CharField(max_length=100)
+    new_password = models.CharField(max_length=100)
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+    status = models.CharField(max_length=50, default="Active")
+
+    def __str__(self):
+        return self.user.username
