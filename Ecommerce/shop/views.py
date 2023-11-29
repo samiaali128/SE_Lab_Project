@@ -200,6 +200,7 @@ def productDetails(request , id):
         'product': prod,
         'product_images': product_images,
     }
+    #
    
     return render(request , "shop/product-details.html" , context)
 
