@@ -102,6 +102,7 @@ class ShippingAddress(models.Model):
     def __str__(self):
         return self.first_name + " " + self.last_name + " " + self.email
 
+#
 
 
 class ProductImage(models.Model):
